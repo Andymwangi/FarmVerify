@@ -15,11 +15,17 @@
     "lint": "eslint src --ext .ts",
     "format": "prettier --write \"src/**/*.ts\""
   },
-  "keywords": ["farmer", "certification", "api"],
+  "keywords": [
+    "farmer",
+    "certification",
+    "api"
+  ],
   "author": "Tradecare Africa",
   "license": "MIT",
   "dependencies": {
     "@prisma/client": "^5.20.0",
+    "@types/pdfkit": "^0.17.4",
+    "axios": "^1.13.2",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -29,6 +35,7 @@
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
+    "pdfkit": "^0.17.2",
     "winston": "^3.14.2"
   },
   "devDependencies": {
