@@ -131,3 +131,35 @@ export const getFarmerStats = async () => {
 
   return { total, pending, certified, declined };
 };
+
+export const updateFarmerLocation = async (
+  farmerId: string,
+  latitude: number,
+  longitude: number
+) => {
+  const farmer = await prisma.farmer.findUnique({
+    where: { id: farmerId },
+  });
+
+  if (!farmer) {
+    throw new Error("Farmer not found");
+  }
+
+  const updatedFarmer = await prisma.farmer.update({
+    where: { id: farmerId },
+    data: {
+      latitude,
+      longitude,
+    },
+    include: {
+      user: {
+        select: {
+          email: true,
+          createdAt: true,
+        },
+      },
+    },
+  });
+
+  return updatedFarmer;
+};
