@@ -15,7 +15,11 @@ import adminRoutes from "./routes/admin.routes";
 const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: config.corsOrigin, credentials: true }));
+// Allow all origins in development for mobile app testing
+app.use(cors({ 
+  origin: config.nodeEnv === 'development' ? true : config.corsOrigin, 
+  credentials: true 
+}));
 app.use(morgan("dev"));
 app.use(express.json());
 
