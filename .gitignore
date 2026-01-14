@@ -1,0 +1,45 @@
+# Root .gitignore
+node_modules/
+.env
+.env.local
+.env.production
+*.log
+.DS_Store
+
+# Backend specific
+backend/dist/
+backend/.env
+backend/node_modules/
+
+# Frontend specific
+frontend/.next/
+frontend/out/
+frontend/.env.local
+frontend/node_modules/
+
+# Database
+*.db
+*.sqlite
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Frontend .gitignore
+.next/
+out/
+node_modules/
+.env*.local
+.vercel
+*.log
+.DS_Store
+
+# Backend .gitignore
+node_modules/
+dist/
+.env
+*.log
+.DS_Store
+coverage/
