@@ -17,6 +17,7 @@ export interface Farmer {
   certificationStatus: CertificationStatus;
   latitude?: number;
   longitude?: number;
+  locationAddress?: string;
   certifiedAt?: string;
   certifiedBy?: string;
   declinedAt?: string;

@@ -66,7 +66,7 @@ export function StatusCard({ farmer }: StatusCardProps) {
           </div>
         </div>
 
-        {farmer.latitude && farmer.longitude && (
+        {(farmer.latitude && farmer.longitude) && (
           <div className="rounded-lg bg-primary/5 p-4">
             <div className="flex items-start gap-3">
               <div className="rounded-lg bg-primary/10 p-2">
@@ -74,14 +74,17 @@ export function StatusCard({ farmer }: StatusCardProps) {
               </div>
               <div className="flex-1">
                 <p className="font-medium text-primary">Farm Location</p>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Coordinates: {farmer.latitude.toFixed(6)}, {farmer.longitude.toFixed(6)}
+                {farmer.locationAddress && (
+                  <p className="text-sm text-foreground mt-1">{farmer.locationAddress}</p>
+                )}
+                <p className="text-xs text-muted-foreground mt-1">
+                  GPS: {farmer.latitude.toFixed(6)}, {farmer.longitude.toFixed(6)}
                 </p>
                 <a
                   href={`https://www.google.com/maps?q=${farmer.latitude},${farmer.longitude}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-primary hover:underline mt-1 inline-flex items-center gap-1"
+                  className="text-sm text-primary hover:underline mt-2 inline-flex items-center gap-1"
                 >
                   View on Map
                   <Icon icon="solar:map-arrow-right-bold" className="h-4 w-4" />
