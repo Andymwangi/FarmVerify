@@ -24,7 +24,8 @@ export const reverseGeocode = async (
       {
         params: {
           api_key: HEIGIT_API_KEY,
-          point: `${longitude},${latitude}`,
+          "point.lon": longitude,
+          "point.lat": latitude,
           size: 1,
         },
       }
