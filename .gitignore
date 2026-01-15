@@ -49,3 +49,7 @@ instructions.md
 
 # Expo cache
 mobile/.expo/
+
+# TypeScript build info
+tsconfig.tsbuildinfo
+frontend/tsconfig.tsbuildinfo
