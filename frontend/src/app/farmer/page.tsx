@@ -39,9 +39,15 @@ export default function FarmerDashboard() {
       <div className="min-h-screen bg-green-50 dark:bg-background">
         <Navbar />
         <div className="container mx-auto flex items-center justify-center px-4 py-24">
-          <div className="flex flex-col items-center gap-4">
-            <Icon icon="solar:refresh-bold" className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-muted-foreground">Loading...</p>
+          <div className="flex flex-col items-center gap-6">
+            <div className="relative">
+              <div className="h-16 w-16 animate-spin rounded-full border-4 border-primary/20 border-t-primary"></div>
+              <Icon icon="solar:leaf-bold" className="absolute left-1/2 top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 text-primary animate-pulse" />
+            </div>
+            <div className="text-center">
+              <p className="font-medium text-foreground">Loading your dashboard</p>
+              <p className="text-sm text-muted-foreground">Please wait...</p>
+            </div>
           </div>
         </div>
       </div>
@@ -146,9 +152,20 @@ export default function FarmerDashboard() {
                 If you have any questions about your certification status or need assistance, 
                 please contact our support team.
               </p>
-              <div className="flex items-center gap-2 text-sm">
-                <Icon icon="solar:phone-bold" className="h-4 w-4 text-primary" />
-                <span>+254 700 123 456</span>
+              <div className="space-y-3">
+                <div className="flex items-start gap-2 text-sm">
+                  <Icon icon="solar:map-point-bold" className="h-4 w-4 mt-0.5 text-primary flex-shrink-0" />
+                  <span className="text-muted-foreground">
+                    106 Mwimuto/Kibichiku, Next to ACK Emmanuel Church<br />
+                    Nairobi, Kenya
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <Icon icon="solar:phone-bold" className="h-4 w-4 text-primary" />
+                  <a href="tel:+254781050960" className="hover:text-primary transition-colors">
+                    (+254) 781 050 960
+                  </a>
+                </div>
               </div>
             </div>
           </div>
