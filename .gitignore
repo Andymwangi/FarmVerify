@@ -46,3 +46,6 @@ coverage/
 # Instructions files
 instructions.json
 instructions.md
+
+# Expo cache
+mobile/.expo/
