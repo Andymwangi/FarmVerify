@@ -321,15 +321,80 @@ npm test
 
 ## Deployment
 
-### AWS Deployment
+### Live Demo
 
-The application can be deployed to AWS using:
+- **Frontend**: [https://farm-verify.vercel.app](https://farm-verify.vercel.app)
+- **Backend API**: [https://farmverify.onrender.com/api](https://farmverify.onrender.com/api)
 
-- **Frontend**: AWS Amplify or S3 + CloudFront
-- **Backend**: EC2 or ECS
-- **Database**: RDS PostgreSQL
+### Frontend → Vercel
 
-Refer to deployment guides in respective directories.
+1. Go to [vercel.com](https://vercel.com) and connect your GitHub account
+2. Import the `FarmVerify` repository
+3. Configure:
+   - **Root Directory**: `frontend`
+   - **Framework Preset**: Next.js
+4. Add environment variable:
+   ```
+   NEXT_PUBLIC_API_URL=https://your-backend.onrender.com/api
+   ```
+5. Deploy! Vercel auto-deploys on every push to `master`
+
+### Backend → Render
+
+#### Option 1: Blueprint (Recommended)
+
+1. Go to [render.com/deploy](https://render.com/deploy)
+2. Paste: `https://github.com/Andymwangi/FarmVerify`
+3. Render detects `render.yaml` and auto-configures everything
+4. Set environment variables in dashboard:
+   - `CORS_ORIGIN`: Your Vercel URL (no trailing slash)
+   - `HEIGIT_API_KEY`: Your GIS API key
+
+#### Option 2: Manual Setup
+
+1. Create **PostgreSQL** database on Render
+2. Create **Web Service** with:
+   - **Root Directory**: `backend`
+   - **Environment**: Docker
+   - **Dockerfile Path**: `./Dockerfile`
+3. Add environment variables:
+   ```
+   NODE_ENV=production
+   PORT=10000
+   DATABASE_URL=<Internal Database URL from Render>
+   JWT_SECRET=<generate-secure-random-string>
+   JWT_EXPIRES_IN=7d
+   CORS_ORIGIN=https://your-app.vercel.app
+   HEIGIT_API_KEY=<your-api-key>
+   ```
+4. Deploy! Migrations and seeding run automatically
+
+### Mobile App → Expo
+
+#### Development (Expo Go)
+
+```bash
+cd mobile
+npm install
+cp .env.example .env  # Set EXPO_PUBLIC_API_URL
+npm start
+```
+
+Scan QR code with Expo Go app on your phone.
+
+#### Production (App Stores)
+
+```bash
+npm install -g eas-cli
+eas login
+eas build:configure
+
+# Android APK
+eas build --platform android --profile preview
+
+# iOS IPA (requires Apple Developer Account)
+eas build --platform ios --profile preview
+```
 
 ### CI/CD
 
