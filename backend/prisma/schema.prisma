@@ -42,6 +42,7 @@ model Farmer {
   certificationStatus CertificationStatus @default(PENDING)
   latitude           Float?
   longitude          Float?
+  locationAddress    String?
   certifiedAt        DateTime?
   certifiedBy        String?
   declinedAt         DateTime?

@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import prisma from "../config/database";
 import { generateToken } from "./token.service";
+import { reverseGeocode } from "./location.service";
 import { RegisterFarmerInput, LoginInput } from "../types";
 
 export const hashPassword = async (password: string): Promise<string> => {
@@ -25,6 +26,12 @@ export const registerFarmer = async (data: RegisterFarmerInput) => {
 
   const hashedPassword = await hashPassword(data.password);
 
+  // Get location address if coordinates provided
+  let locationAddress: string | undefined;
+  if (data.latitude !== undefined && data.longitude !== undefined) {
+    locationAddress = await reverseGeocode(data.latitude, data.longitude);
+  }
+
   const user = await prisma.user.create({
     data: {
       email: data.email,
@@ -37,6 +44,7 @@ export const registerFarmer = async (data: RegisterFarmerInput) => {
           cropType: data.cropType,
           latitude: data.latitude,
           longitude: data.longitude,
+          locationAddress,
         },
       },
     },
