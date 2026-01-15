@@ -1,5 +1,6 @@
 import prisma from "../config/database";
 import { CertificationStatus, UpdateStatusInput } from "../types";
+import { reverseGeocode } from "./location.service";
 
 export const getFarmerByUserId = async (userId: string) => {
   const farmer = await prisma.farmer.findUnique({
@@ -145,11 +146,15 @@ export const updateFarmerLocation = async (
     throw new Error("Farmer not found");
   }
 
+  // Get human-readable address using HEIGIT reverse geocoding
+  const locationAddress = await reverseGeocode(latitude, longitude);
+
   const updatedFarmer = await prisma.farmer.update({
     where: { id: farmerId },
     data: {
       latitude,
       longitude,
+      locationAddress,
     },
     include: {
       user: {
