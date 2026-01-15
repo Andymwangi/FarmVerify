@@ -1,5 +1,8 @@
 FROM node:20-alpine AS base
 
+# Install OpenSSL for Prisma
+RUN apk add --no-cache openssl openssl-dev libc6-compat
+
 WORKDIR /app
 
 # Copy package files and prisma schema
@@ -17,20 +20,23 @@ RUN npm run build
 # Production image
 FROM node:20-alpine AS production
 
+# Install OpenSSL for Prisma runtime
+RUN apk add --no-cache openssl libc6-compat
+
 WORKDIR /app
 
 ENV NODE_ENV=production
 
 # Copy package files and install production dependencies only
 COPY package*.json ./
+COPY prisma ./prisma/
 RUN npm ci --omit=dev
 
-# Copy built files and prisma
+# Copy built files
 COPY --from=build /app/dist ./dist
-COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/node_modules/.prisma ./node_modules/.prisma
 
-# Generate Prisma client for production platform
+# Regenerate Prisma client for production platform
 RUN npx prisma generate
 
 # Render sets PORT dynamically
