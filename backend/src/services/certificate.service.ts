@@ -7,6 +7,9 @@ interface CertificateData {
   cropType: string;
   issueDate: Date;
   certificateId: string;
+  locationAddress?: string;
+  latitude?: number;
+  longitude?: number;
 }
 
 export const generateCertificate = (data: CertificateData, res: Response) => {
@@ -33,7 +36,7 @@ export const generateCertificate = (data: CertificateData, res: Response) => {
     .fontSize(40)
     .font("Helvetica-Bold")
     .fillColor("#14532d")
-    .text("CERTIFICATE OF COMPLIANCE", 0, 100, { align: "center" });
+    .text("CERTIFICATE OF COMPLIANCE", 0, 80, { align: "center" });
 
   doc
     .moveDown()
@@ -42,7 +45,7 @@ export const generateCertificate = (data: CertificateData, res: Response) => {
     .fillColor("#166534")
     .text("This is to certify that", { align: "center" });
 
-  doc.moveDown(1.5);
+  doc.moveDown(1);
 
   doc
     .fontSize(32)
@@ -58,7 +61,7 @@ export const generateCertificate = (data: CertificateData, res: Response) => {
     .fillColor("#166534")
     .text("has successfully met all standards and requirements for", { align: "center" });
 
-  doc.moveDown(1.5);
+  doc.moveDown(1);
 
   doc
     .fontSize(24)
@@ -66,50 +69,90 @@ export const generateCertificate = (data: CertificateData, res: Response) => {
     .fillColor("#15803d")
     .text("Sustainable Farming Practice", { align: "center" });
 
-  doc.moveDown(1.5);
+  doc.moveDown(1);
 
-  const leftColX = 200;
-  const rightColX = 500;
-  const statsY = 380;
+  // Farm Details Section
+  const leftColX = 150;
+  const centerColX = 350;
+  const rightColX = 550;
+  const statsY = 340;
 
   doc
     .fontSize(14)
     .font("Helvetica-Bold")
     .fillColor("#000000")
     .text("Farm Size:", leftColX, statsY)
-    .text("Crop Type:", rightColX, statsY);
+    .text("Crop Type:", centerColX, statsY)
+    .text("Location:", rightColX, statsY);
 
   doc
     .fontSize(14)
     .font("Helvetica")
     .fillColor("#166534")
-    .text(`${data.farmSize} Acres`, leftColX, statsY + 20)
-    .text(data.cropType, rightColX, statsY + 20);
+    .text(`${data.farmSize} Acres`, leftColX, statsY + 18)
+    .text(data.cropType, centerColX, statsY + 18);
 
-  const footerY = 480;
+  // Location Display
+  if (data.locationAddress) {
+    doc
+      .fontSize(12)
+      .font("Helvetica")
+      .fillColor("#166534")
+      .text(data.locationAddress, rightColX, statsY + 18, { width: 180 });
+  } else if (data.latitude && data.longitude) {
+    doc
+      .fontSize(12)
+      .font("Helvetica")
+      .fillColor("#166534")
+      .text(`${data.latitude.toFixed(4)}, ${data.longitude.toFixed(4)}`, rightColX, statsY + 18);
+  } else {
+    doc
+      .fontSize(12)
+      .font("Helvetica")
+      .fillColor("#666666")
+      .text("Not specified", rightColX, statsY + 18);
+  }
+
+  // GPS Coordinates (if available)
+  if (data.latitude && data.longitude && data.locationAddress) {
+    doc
+      .fontSize(10)
+      .font("Helvetica")
+      .fillColor("#888888")
+      .text(`GPS: ${data.latitude.toFixed(6)}, ${data.longitude.toFixed(6)}`, rightColX, statsY + 50, { width: 180 });
+  }
+
+  // Footer Section
+  const footerY = 440;
   doc
     .fontSize(12)
     .font("Helvetica")
     .fillColor("#000000")
     .text("Date of Issue:", leftColX, footerY)
-    .text("Certificate ID:", rightColX, footerY);
+    .text("Certificate ID:", centerColX, footerY);
 
   doc
     .fontSize(12)
     .font("Helvetica-Bold")
-    .text(data.issueDate.toLocaleDateString(), leftColX, footerY + 20)
-    .text(data.certificateId, rightColX, footerY + 20);
+    .text(data.issueDate.toLocaleDateString(), leftColX, footerY + 18)
+    .text(data.certificateId, centerColX, footerY + 18);
 
-  const sigY = 450;
-  const centerX = doc.page.width / 2;
+  // Signature Line
+  const sigY = 480;
+  const sigCenterX = doc.page.width / 2;
   
   doc
-    .moveTo(centerX - 100, sigY + 90)
-    .lineTo(centerX + 100, sigY + 90)
+    .moveTo(sigCenterX - 100, sigY)
+    .lineTo(sigCenterX + 100, sigY)
     .strokeColor("#000000")
     .lineWidth(1)
     .stroke();
 
+  doc
+    .fontSize(10)
+    .font("Helvetica")
+    .fillColor("#666666")
+    .text("Authorized Signature", sigCenterX - 50, sigY + 5);
 
   doc.end();
 };

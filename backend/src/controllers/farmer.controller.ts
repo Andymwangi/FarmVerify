@@ -44,6 +44,9 @@ export const downloadCertificate = async (req: Request, res: Response): Promise<
       cropType: farmer.cropType,
       issueDate: farmer.certifiedAt || new Date(),
       certificateId: `CERT-${farmer.id.substring(0, 8).toUpperCase()}`,
+      locationAddress: farmer.locationAddress || undefined,
+      latitude: farmer.latitude || undefined,
+      longitude: farmer.longitude || undefined,
     };
 
     const { generateCertificate } = await import("../services/certificate.service");
