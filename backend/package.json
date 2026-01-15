@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc && tsc prisma/seed.ts --outDir dist/prisma --esModuleInterop --skipLibCheck",
-    "start": "npx prisma migrate reset --force && node dist/prisma/seed.js && node dist/server.js",
+    "start": "npx prisma migrate deploy && node dist/prisma/seed.js && node dist/server.js",
     "start:simple": "node dist/server.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
