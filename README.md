@@ -253,6 +253,32 @@ Content-Type: application/json
 }
 ```
 
+### Bonus / Additional Features
+
+#### Download Certificate
+
+_Added feature: Allows certified farmers to download their PDF certificate_
+
+```http
+GET /api/farmers/:id/certificate
+Authorization: Bearer <token>
+```
+
+#### Update Live Location
+
+_Added feature: Allows updating farm coordinates using live geolocation_
+
+```http
+PATCH /api/farmers/:id/location
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "latitude": -1.286389,
+  "longitude": 36.817223
+}
+```
+
 ## Environment Variables
 
 ### Backend (.env)
