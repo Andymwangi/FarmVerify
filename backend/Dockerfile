@@ -46,4 +46,4 @@ EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT:-5000}/api/health || exit 1
 
-CMD ["npm", "start"]
+CMD ["sh", "-c", "npm start"]
